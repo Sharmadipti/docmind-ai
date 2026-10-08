@@ -1,0 +1,24 @@
+# Versions are pinned to the ones this project was tested with.
+
+# PDF loading + chunking
+langchain-community==0.4.2
+langchain-text-splitters==1.1.2
+pypdf==6.19.0
+
+# Embeddings + vector search
+langchain-huggingface==1.2.2
+sentence-transformers==6.1.0
+faiss-cpu==1.15.1
+
+# LLM
+google-genai==2.26.0
+
+# API
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+python-multipart==0.0.32
+python-dotenv==1.2.3
+
+# Tests
+pytest==9.1.1
+httpx==0.28.1
