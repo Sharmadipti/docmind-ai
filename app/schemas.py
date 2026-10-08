@@ -1,12 +1,18 @@
 """Request and response shapes. Pydantic validates them automatically."""
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class AskRequest(BaseModel):
-    question: str = Field(..., min_length=3, max_length=1000, examples=["What is this document about?"])
-    top_k: int | None = Field(None, ge=1, le=10, description="How many chunks to retrieve")
-    doc_id: str | None = Field(None, description="Only search this document")
+    # A whole-request example, so Swagger's "Try it out" body is ready to send.
+    # Without it, Swagger fills doc_id with "string", which returns 404 "Document not found".
+    model_config = ConfigDict(json_schema_extra={"examples": [{"question": "What is this document about?"}]})
+
+    question: str = Field(..., min_length=3, max_length=1000)
+    top_k: int | None = Field(None, ge=1, le=10, description="How many chunks to retrieve (default 4)")
+    doc_id: str | None = Field(
+        None, description="Only search this document (a doc_id from /upload or /documents). Leave out to search all."
+    )
 
     @field_validator("question")
     @classmethod
